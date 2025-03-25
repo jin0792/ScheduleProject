@@ -21,7 +21,6 @@ import java.util.Map;
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
-    private final Validator mvcValidator;
 
 
     // 일정 생성 요청
@@ -47,16 +46,13 @@ public class ScheduleController {
 
     // 선택한 일정 수정
     @PatchMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> update(
-            @PathVariable Long id,
-            @RequestBody ScheduleRequestDto dto
-    ) {
-        return new ResponseEntity<>(scheduleService.update(id, dto.getUserName(), dto.getToDo()), HttpStatus.OK);
+    public ResponseEntity<ScheduleResponseDto> update(@PathVariable Long id, @RequestBody ScheduleRequestDto dto) {
+        return new ResponseEntity<>(scheduleService.update(id, dto.getUserName(), dto.getToDo(), dto.getPassword()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
-        scheduleService.deleteSchedule(id);
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto dto) {
+        scheduleService.deleteSchedule(id, dto.getPassword());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

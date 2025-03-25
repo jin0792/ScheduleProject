@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor // 모든 필드에 생성자를 자동생성
 public class Schedule {
 
-    @Setter
+
     private Long id;
     private String userName;
     private String password;
@@ -27,8 +27,9 @@ public class Schedule {
     }
 
 
-    public void update(String userName, String toDo) {
+    public void update(String userName, String password, String toDo) {
         this.userName = userName;
+        this.password = password;
         this.toDo = toDo;
         this.updatedAt = LocalDateTime.now();
     }
