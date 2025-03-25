@@ -24,13 +24,6 @@ public class Schedule {
         this.password = password;
         this.toDo = toDo;
         this.createdAt = LocalDateTime.now();
-    }
-
-
-    public void update(String userName, String password, String toDo) {
-        this.userName = userName;
-        this.password = password;
-        this.toDo = toDo;
         this.updatedAt = LocalDateTime.now();
     }
 

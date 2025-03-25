@@ -32,7 +32,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     public ScheduleResponseDto saveSchedule(Schedule schedule) {
         // INSERT Query를 직접 작성하지 않아도 된다.
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName("schedule").usingGeneratedKeyColumns("id");
+        jdbcInsert.withTableName("schedules").usingGeneratedKeyColumns("id");
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userName", schedule.getUserName());
@@ -50,24 +50,24 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
 
     @Override
     public List<ScheduleResponseDto> findAllSchedules() {
-        return jdbcTemplate.query("select * from schedule", scheduleRowMapper());
+        return jdbcTemplate.query("select * from schedules", scheduleRowMapper());
     }
 
     @Override
     public Schedule findScheduleById(Long id) {
-        List<Schedule> result = jdbcTemplate.query("select * from schedule where id = ?", scheduleRowMapperV2(), id);
+        List<Schedule> result = jdbcTemplate.query("select * from schedules where id = ?", scheduleRowMapperV2(), id);
         return result.stream().findAny().orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id));
     }
 
     @Override
-    public int update(Long id, String userName, String toDo, String password) {
-        return jdbcTemplate.update("update schedule set userName = ?, toDo = ? where id = ? and password = ?", userName, toDo, id, password);
+    public int update(Long id, String userName, String password, String toDo) {
+        return jdbcTemplate.update("update schedules set userName = ?, toDo = ? where id = ? and password = ?", userName, toDo, id, password);
     }
 
     @Override
     public int deleteSchedule(Long id, String password) {
 
-        return jdbcTemplate.update("delete from schedule where id = ? and password = ?", id, password);
+        return jdbcTemplate.update("delete from schedules where id = ? and password = ?", id, password);
 
     }
 
@@ -81,7 +81,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
                         rs.getLong("id"),
                         rs.getString("userName"),
                         rs.getString("toDo"),
-                        TtoL(rs.getTimestamp("updated_at"))
+                        TtoL(rs.getTimestamp("updatedAt"))
                 );
             }
         };
@@ -94,10 +94,10 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
                 return new Schedule(
                         rs.getLong("id"),
                         rs.getString("userName"),
-                        rs.getString("toDo"),
                         rs.getString("password"),
-                        TtoL(rs.getTimestamp("created_at")),
-                        TtoL(rs.getTimestamp("updated_at"))
+                        rs.getString("toDo"),
+                        TtoL(rs.getTimestamp("createdAt")),
+                        TtoL(rs.getTimestamp("updatedAt"))
                 );
             }
         };

@@ -47,7 +47,7 @@ public class ScheduleController {
     // 선택한 일정 수정
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> update(@PathVariable Long id, @RequestBody ScheduleRequestDto dto) {
-        return new ResponseEntity<>(scheduleService.update(id, dto.getUserName(), dto.getToDo(), dto.getPassword()), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.update(id, dto.getUserName(), dto.getPassword(), dto.getToDo()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

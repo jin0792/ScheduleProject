@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public abstract class ScheduleServiceImpl implements ScheduleService {
+public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
 
@@ -49,11 +49,11 @@ public abstract class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleResponseDto update(Long id, String userName, String password, String toDo) {
         // 필수값 검증
-        if (userName == null || toDo == null || password == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The userName, toDo, password are a required value.");
+        if (password == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The password is a required value.");
         }
 
-        int updatedRow = scheduleRepository.update(id, userName, toDo, password);
+        int updatedRow = scheduleRepository.update(id, userName, password, toDo);
 
         if (updatedRow == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
@@ -67,6 +67,10 @@ public abstract class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public void deleteSchedule(Long id, String password) {
+
+        if (password == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The password is a required value.");
+        }
 
         int deletedRow = scheduleRepository.deleteSchedule(id ,password);
 
