@@ -19,17 +19,18 @@ public class Schedule {
     private LocalDateTime createdAt;  // 날짜, 시간 같이 저장
     private LocalDateTime updatedAt;
 
-    public Schedule(String userName, String password, String toDo, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Schedule(String userName, String password, String toDo) {
         this.userName = userName;
         this.password = password;
         this.toDo = toDo;
+        this.createdAt = LocalDateTime.now();
     }
 
 
-    public void update(String userName, String password, String toDo) {
+    public void update(String userName, String toDo) {
         this.userName = userName;
-        this.password = password;
         this.toDo = toDo;
+        this.updatedAt = LocalDateTime.now();
     }
 
 }
