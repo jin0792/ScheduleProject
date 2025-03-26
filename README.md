@@ -1,7 +1,7 @@
 # ScheduleProject
 
 
-##  **필수 기능 가이드**
+##  **필수 기능**
 
 ### Lv 0. API 명세 및 ERD 작성
 
